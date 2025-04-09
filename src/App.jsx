@@ -65,45 +65,57 @@ const KEY = "def9f89e";
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
+  const [query, setQuery] = useState("minions");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const query = "avengers";
+  const tempQuery = "avengers";
 
-  useEffect(function () {
-    async function fecthMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-        );
+  useEffect(
+    function () {
+      async function fecthMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          );
 
-        if (!res.ok)
-          throw new Error("Something went wrong with the movies API");
+          if (!res.ok)
+            throw new Error("Something went wrong with the movies API");
 
-        const data = await res.json();
+          const data = await res.json();
 
-        if (data.Response === "False") {
-          throw new Error("Movie not found");
+          if (data.Response === "False") {
+            throw new Error("Movie not found");
+          }
+
+          setMovies(data.Search);
+        } catch (err) {
+          console.error(err);
+          setError(err.message);
+        } finally {
+          setIsLoading(false);
         }
-
-        setMovies(data.Search);
-        console.log(data);
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
       }
-    }
-    fecthMovies();
-  }, []);
+
+      if (query.length < 2) {
+        setMovies([]);
+        setError("");
+        setIsLoading(false);
+        return;
+      }
+
+      fecthMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <Navbar>
         <Logo />
-        <SearchBar />
+        <SearchBar query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </Navbar>
 
