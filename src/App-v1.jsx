@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Navbar from "./components/Navbar/Navbar";
 import Logo from "./components/Navbar/Logo";
@@ -10,8 +10,6 @@ import Box from "./components/Box";
 import WatchedSummary from "./components/WatchedBox/WatchedSummary";
 import WatchedMoviesList from "./components/WatchedBox/WatchedMoviesList";
 import MovieList from "./components/MovieListBox/MovieList";
-import Loader from "./components/Loader";
-import ErrorMessage from "./components/ErrorMessage";
 
 const tempMovieData = [
   {
@@ -60,44 +58,9 @@ export const tempWatchedData = [
   },
 ];
 
-const KEY = "def9f89e";
-
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const query = "avengers";
-
-  useEffect(function () {
-    async function fecthMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-        );
-
-        if (!res.ok)
-          throw new Error("Something went wrong with the movies API");
-
-        const data = await res.json();
-
-        if (data.Response === "False") {
-          throw new Error("Movie not found");
-        }
-
-        setMovies(data.Search);
-        console.log(data);
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fecthMovies();
-  }, []);
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -109,9 +72,7 @@ export default function App() {
 
       <Main>
         <Box>
-          {isLoading && !error && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies}></MovieList>}
-          {error && <ErrorMessage message={error} />}
+          <MovieList movies={movies}></MovieList>
         </Box>
         <Box>
           <WatchedSummary watched={watched} />
