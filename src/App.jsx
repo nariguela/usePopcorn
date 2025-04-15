@@ -142,6 +142,7 @@ export default function App() {
         <Box>
           {selectedId ? (
             <MovieDetails
+              KEY={KEY}
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
             />
