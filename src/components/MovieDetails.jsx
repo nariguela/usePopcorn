@@ -46,6 +46,22 @@ function MovieDetails({
   }
 
   useEffect(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    });
+
+    return function () {
+      document.removeEventListener("keydown", (e) => {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      });
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
     async function getMovieDetails() {
       try {
         setIsLoading(true);
