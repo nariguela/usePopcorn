@@ -25,7 +25,11 @@ usePopcorn é uma aplicação web para explorar, avaliar e gerenciar filmes assi
    cd usepopcorn
    ```
 2. Instale as dependências
+   ```bash
    npm install
+   ```
 3. Inicie o servidor de desenvolvimento:
+   ```bash
    npm start
+   ```
 4. Abra http://localhost:3000 no navegador para visualizar a aplicação.
