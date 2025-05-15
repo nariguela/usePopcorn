@@ -8,20 +8,17 @@ usePopcorn é uma aplicação web para explorar, avaliar e gerenciar filmes assi
 - **Detalhes do Filme**: Veja informações detalhadas sobre cada filme, incluindo sinopse, elenco, diretor, gênero e avaliação do IMDb.
 - **Lista de Filmes Assistidos**: Adicione filmes à sua lista de assistidos e avalie-os com uma nota personalizada.
 - **Resumo de Filmes Assistidos**: Veja estatísticas como a média de avaliações do IMDb, sua avaliação média e o tempo total de duração dos filmes assistidos.
-- **Interface Responsiva**: Navegue facilmente pela aplicação com uma interface moderna e intuitiva.
--
 
 ## Tecnologias Utilizadas
 
 - **React**: Biblioteca JavaScript para construção de interfaces de usuário.
-- **OMDb API**: API utilizada para buscar informações sobre filmes.
-- **CSS**: Estilização da interface.
+- **Consumo de API**: OMDb API utilizada para buscar informações sobre filmes.
 
 ## Como Executar o Projeto
 
 1. Clone o repositório:
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/nariguela/usePopcorn.git
    cd usepopcorn
    ```
 2. Instale as dependências
