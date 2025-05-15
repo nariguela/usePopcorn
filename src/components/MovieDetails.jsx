@@ -3,13 +3,9 @@ import React, { useEffect, useState, useRef } from "react";
 import StarRating from "./StarRating";
 import Loader from "./Loader";
 
-function MovieDetails({
-  selectedId,
-  onCloseMovie,
-  onAddWatched,
-  watched,
-  KEY,
-}) {
+const KEY = "def9f89e";
+
+function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [movieDetails, setMovieDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState(0);
@@ -87,7 +83,7 @@ function MovieDetails({
     if (selectedId) {
       getMovieDetails();
     }
-  }, [selectedId, KEY]);
+  }, [selectedId]);
 
   useEffect(() => {
     if (!title) return;

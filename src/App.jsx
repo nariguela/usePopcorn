@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useMovies } from "./useMovies";
 
 import Navbar from "./components/Navbar/Navbar";
 import Logo from "./components/Navbar/Logo";
@@ -14,70 +15,14 @@ import MovieDetails from "./components/MovieDetails";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 
-const KEY = "def9f89e";
-
 export default function App() {
-  const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+  const { movies, isLoading, error } = useMovies(query);
   const [watched, setWatched] = useState(() => {
     const storedMovieValue = localStorage.getItem("watched");
     return JSON.parse(storedMovieValue);
   });
-
-  useEffect(
-    function () {
-      const controller = new AbortController();
-      async function fecthMovies() {
-        try {
-          setIsLoading(true);
-          setError("");
-          const res = await fetch(
-            `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-            {
-              signal: controller.signal,
-            }
-          );
-
-          if (!res.ok)
-            throw new Error("Something went wrong with the movies API");
-
-          const data = await res.json();
-
-          if (data.Response === "False") {
-            throw new Error("Movie not found");
-          }
-
-          setMovies(data.Search);
-          setError("");
-        } catch (err) {
-          if (err.name !== "AbortError") {
-            console.log(err.message);
-            setError(err.message);
-          }
-        } finally {
-          setIsLoading(false);
-        }
-      }
-
-      if (query.length < 2) {
-        setMovies([]);
-        setError("");
-        setIsLoading(false);
-        return;
-      }
-
-      handleCloseMovie();
-      fecthMovies();
-
-      return function () {
-        controller.abort();
-      };
-    },
-    [query]
-  );
 
   function handleSelectMovie(movieId) {
     setSelectedId((prevId) => (prevId === movieId ? null : movieId));
@@ -124,7 +69,6 @@ export default function App() {
         <Box>
           {selectedId ? (
             <MovieDetails
-              KEY={KEY}
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
               onAddWatched={handleAddWatched}
