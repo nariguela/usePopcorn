@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import StarRating from "./StarRating";
 import Loader from "./Loader";
+import { useKey } from "../useKey";
 
 const KEY = "def9f89e";
 
@@ -48,21 +49,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onAddWatched(newWatchedMovie);
   }
 
-  useEffect(() => {
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Escape") {
-        onCloseMovie();
-      }
-    });
-
-    return function () {
-      document.removeEventListener("keydown", (e) => {
-        if (e.code === "Escape") {
-          onCloseMovie();
-        }
-      });
-    };
-  }, [onCloseMovie]);
+  useKey("Escape", onCloseMovie);
 
   useEffect(() => {
     async function getMovieDetails() {
